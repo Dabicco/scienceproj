@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domestic Cats - Interactive Slideshow</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="cat-silhouette"></div>
+            <div class="loading-spinner"></div>
+            <h2>Loading Presentation</h2>
+            <p>Created by Angel Chinchilla, Christopher Lopez, Nico Bellantoni</p>
+            <div class="engine-attribution">
+                <img src="images/dabicco-logo.svg" alt="Dabicco Engine Logo" class="dabicco-logo">
+                <p>Compiled in Dabicco Engine 8</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slideshow-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active" id="slide1">
+            <div class="slide-content animate__animated animate__fadeIn">
+                <h1>Domestic Cats</h1>
+                <h2>The Fascinating Feline Companions</h2>
+                <img src="images/cat-main.jpg" alt="Domestic Cat" class="slide-image">
+                <p class="slide-description">An interactive presentation about our beloved feline friends</p>
+                <p class="credits">Created by Angel Chinchilla, Christopher Lopez, Nico Bellantoni</p>
+                <div class="navigation">
+                    <button class="nav-button next-button" onclick="nextSlide()">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Description -->
+        <div class="slide" id="slide2">
+            <div class="slide-content">
+                <h2>What is a Domestic Cat?</h2>
+                <div class="two-column">
+                    <div class="column">
+                        <img src="images/house-cat.jpg" alt="Domestic Cat Varieties" class="slide-image">
+                    </div>
+                    <div class="column">
+                        <ul class="description-list">
+                            <li class="animate__animated animate__fadeInRight animate__delay-1s">Scientific name: <em>Felis catus</em></li>
+                            <li class="animate__animated animate__fadeInRight animate__delay-2s">Small carnivorous mammal</li>
+                            <li class="animate__animated animate__fadeInRight animate__delay-3s">Weighs between 8-10 pounds (3.6-4.5 kg) on average</li>
+                            <li class="animate__animated animate__fadeInRight animate__delay-4s">Comes in various coat colors, patterns, and lengths</li>
+                            <li class="animate__animated animate__fadeInRight animate__delay-5s">Has retractable claws, heightened senses, and a slender, flexible body</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="navigation">
+                    <button class="nav-button prev-button" onclick="prevSlide()">Previous</button>
+                    <button class="nav-button next-button" onclick="nextSlide()">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Quiz #1 -->
+        <div class="slide" id="slide3">
+            <div class="slide-content">
+                <h2>Quick Quiz: Cat Basics</h2>
+                <p>Let's test what you've learned so far!</p>
+                
+                <div class="quiz-container">
+                    <h3>What is the scientific name for domestic cats?</h3>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-correct="true">Felis catus</div>
+                        <div class="quiz-option" data-correct="false">Canis lupus</div>
+                        <div class="quiz-option" data-correct="false">Felis silvestris</div>
+                        <div class="quiz-option" data-correct="false">Panthera leo</div>
+                    </div>
+                    <div class="quiz-feedback"></div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-button prev-button" onclick="prevSlide()">Previous</button>
+                    <button class="nav-button next-button" onclick="nextSlide()">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Taxonomy -->
+        <div class="slide" id="slide4">
+            <div class="slide-content">
+                <h2>Cat Family Tree</h2>
+                <div class="two-column">
+                    <div class="column">
+                        <img src="images/cat-family.jpg" alt="Cat Family" class="slide-image">
+                    </div>
+                    <div class="column">
+                        <div class="kid-friendly-list">
+                            <h3>Who is in the cat family?</h3>
+                            <div class="kid-friendly-item">
+                                <img src="images/house-cat.jpg" alt="House Cat" class="icon-image">
+                                <p>House Cats</p>
+                            </div>
+                            <div class="kid-friendly-item">
+                                <img src="images/lion.jpg" alt="Lion" class="icon-image">
+                                <p>Lions</p>
+                            </div>
+                            <div class="kid-friendly-item">
+                                <img src="images/tiger.jpg" alt="Tiger" class="icon-image">
+                                <p>Tigers</p>
+                            </div>
+                            <div class="kid-friendly-item">
+                                <img src="images/cheetah.jpg" alt="Cheetah" class="icon-image">
+                                <p>Cheetahs</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="kid-friendly-box">
+                    <h3>Did you know?</h3>
+                    <p>Domestic cats are most closely related to wildcats! They're like cousins.</p>
+                    <p>All cats belong to the scientific group called <strong>Felidae</strong>.</p>
+                    <p>Your pet cat's scientific name is <strong>Felis catus</strong> (explained prior).</p>
+                </div>
+                <div class="navigation">
+                    <button class="nav-button prev-button" onclick="prevSlide()">Previous</button>
+                    <button class="nav-button next-button" onclick="nextSlide()">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Location -->
+        <div class="slide" id="slide5">
+            <div class="slide-content">
+                <h2>Where Do Cats Live?</h2>
+                <p class="kid-subtitle">Cats live all around the world!</p>
+                
+                <div class="cat-map-container">
+                    <img src="images/world-map.jpg" alt="World Map" class="slide-image">
+                    <div class="map-overlay">Cats live everywhere except Antarctica</div>
+                </div>
+                
+                <div class="habitat-boxes">
+                    <div class="habitat-box">
+                        <h3>Where They Started</h3>
+                        <img src="images/egypt-desert.jpg" alt="Egypt" class="habitat-image">
+                        <ul class="kid-list">
+                            <li>Originally from Africa and the Middle East</li>
+                            <li>First became pets about 9,500 years ago</li>
+                            <li>Traveled with humans around the world</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="habitat-box">
+                        <h3>Where They Live Now</h3>
+                        <img src="images/urban-cat.jpg" alt="Urban Cat" class="habitat-image">
+                        <ul class="kid-list">
+                            <li>Over 600 million pet cats worldwide</li>
+                            <li>Live in cities, towns, and countryside</li>
+                            <li>Can adapt to hot, cold, wet, or dry places</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="kid-friendly-box">
+                    <h3>Did you know?</h3>
+                    <p>Cats live on every continent except Antarctica - as even though they have a thick coat of fur, the temperatures in Antarctica are just way too cold for them!</p>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-button prev-button" onclick="prevSlide()">Previous</button>
+                    <button class="nav-button next-button" onclick="nextSlide()">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Knowledge Quiz -->
+        <div class="slide" id="slide6">
+            <div class="slide-content">
+                <h2>Cat Knowledge Quiz</h2>
+                <p class="kid-subtitle">Let's see what you've learned about cats!</p>
+                
+                <div class="multi-quiz-container">
+                    <!-- Question 1 -->
+                    <div class="quiz-block">
+                        <h3>Question 1: What family of Mammals did we specifically explain cats to be in?</h3>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-question="1" data-correct="true">Felidae</div>
+                            <div class="quiz-option" data-question="1" data-correct="false">Canidae</div>
+                            <div class="quiz-option" data-question="1" data-correct="false">Feline</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback1"></div>
+                    </div>
+                    
+                    <!-- Question 2 -->
+                    <div class="quiz-block">
+                        <h3>Question 2: Where did domestic cats originate from?</h3>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-question="2" data-correct="true">Northern Africa and the Middle East</div>
+                            <div class="quiz-option" data-question="2" data-correct="false">South America</div>
+                            <div class="quiz-option" data-question="2" data-correct="false">Australia</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback2"></div>
+                    </div>
+                    
+                    <!-- Question 3 -->
+                    <div class="quiz-block">
+                        <h3>Question 3: Which animals are in the same family as cats?</h3>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-question="3" data-correct="true">Lions and Tigers</div>
+                            <div class="quiz-option" data-question="3" data-correct="false">Dogs and Wolves</div>
+                            <div class="quiz-option" data-question="3" data-correct="false">Rabbits and Hamsters</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback3"></div>
+                    </div>
+                </div>
+                
+                <div class="quiz-result">
+                    <h3>Your Score: <span id="quiz-score">0</span>/3</h3>
+                    <button id="reset-quiz" class="reset-button">Try Again</button>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-button prev-button" onclick="prevSlide()">Previous</button>
+                    <button class="nav-button next-button" onclick="nextSlide()">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Evolution -->
+        <div class="slide" id="slide7">
+            <div class="slide-content">
+                <h2>Evolutionary History of Cats</h2>
+                <div class="two-column">
+                    <div class="column">
+                        <img src="images/cat-ancient.jpg" alt="Cat Evolution" class="slide-image">
+                    </div>
+                    <div class="column">
+                        <ul class="description-list">
+                            <li class="animate__animated animate__fadeInRight animate__delay-1s"><strong>25 million years ago:</strong> First true cats (Proailurus) appeared</li>
+                            <li class="animate__animated animate__fadeInRight animate__delay-2s"><strong>12 million years ago:</strong> Modern cat family Felidae emerged</li>
+                            <li class="animate__animated animate__fadeInRight animate__delay-3s"><strong>4.2 million years ago:</strong> Small cats (Felis genus) evolved</li>
+                            <li class="animate__animated animate__fadeInRight animate__delay-4s"><strong>200,000 years ago:</strong> Wildcats (Felis silvestris) appeared</li>
+                            <li class="animate__animated animate__fadeInRight animate__delay-5s"><strong>9,500-10,000 years ago:</strong> First evidence of cat domestication in Near East</li>
+                        </ul>
+                    </div>
+                </div>
+                <p>According to the National Geographic, cats likely began their association with humans when early farmers stored grains that attracted mice, and wildcats followed their prey into human settlements. These cats proved valuable for controlling rodents, and humans gradually formed bonds with the more docile individuals.</p>
+                <div class="navigation">
+                    <button class="nav-button prev-button" onclick="prevSlide()">Previous</button>
+                    <button class="nav-button next-button" onclick="nextSlide()">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Structural Adaptations -->
+        <div class="slide" id="slide8">
+            <div class="slide-content">
+                <h2>Cat Adaptations!</h2>
+                <p class="kid-subtitle">Amazing body features that help cats survive</p>
+                
+                <div class="feature-cards">
+                    <div class="feature-card">
+                        <img src="images/cat-claws.jpg" alt="Cat Claws" class="feature-image">
+                        <h3>Retractable Claws</h3>
+                        <p>Cats can 'hide' (retract) their claws when not needed and bring them out for climbing or hunting. This is a survival adaptation that helps cats protect their claws and prevent injury.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <img src="images/cat-eyes.jpg" alt="Cat Eyes" class="feature-image">
+                        <h3>Night Vision</h3>
+                        <p>Cats can see very well in low light because of a special eye layer called the tapetum lucidum! This layer reflects light back into the retina, increasing eye sensitivity and therefore allowing cats to see better in low light.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <img src="images/cat-whiskers.jpg" alt="Cat Whiskers" class="feature-image">
+                        <h3>Whiskers</h3>
+                        <p>Whiskers help cats measure spaces and feel what's around them, even in the dark! They are also sensitive to touch and can help cats navigate their environment, mainly small spaces or in the dark.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <img src="images/cat-jumping.jpg" alt="Cat Jumping" class="feature-image">
+                        <h3>Flexible Body</h3>
+                        <p>A flexible spine lets cats twist, turn, and jump with amazing balance. This is a survival adaptation that helps cats catch prey or escape predators.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <img src="images/cat-paws.jpg" alt="Cat Paws" class="feature-image">
+                        <h3>Soft Paws</h3>
+                        <p>Soft paw pads help cats walk quietly and cushion their landings This helps cats avoid injury and makes them more stealthy hunters.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <img src="images/cat-grooming.jpg" alt="Rough Tongue" class="feature-image">
+                        <h3>Rough Tongue</h3>
+                        <p>Cats have rough tongues that help them catch prey and clean their fur. The rough texture of their tongues helps them grip and hold onto flesh, and the barbs on their tongues help them remove fur or skin from their prey aswell as their own fur.</p>
+                    </div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-button prev-button" onclick="prevSlide()">Previous</button>
+                    <button class="nav-button next-button" onclick="nextSlide()">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Quiz #2 -->
+        <div class="slide" id="slide9">
+            <div class="slide-content">
+                <h2>Adaptation Quiz</h2>
+                <p>Match the adaptation to its function!</p>
+                
+                <div class="matching-game">
+                    <div class="draggable-container">
+                        <div id="drag1" class="draggable" draggable="true" ondragstart="drag(event)" data-match="night">Night Vision</div>
+                        <div id="drag2" class="draggable" draggable="true" ondragstart="drag(event)" data-match="claws">Retractable Claws</div>
+                        <div id="drag3" class="draggable" draggable="true" ondragstart="drag(event)" data-match="whiskers">Whiskers</div>
+                        <div id="drag4" class="draggable" draggable="true" ondragstart="drag(event)" data-match="tongue">Rough Tongue</div>
+                    </div>
+                    
+                    <div class="droppable-container">
+                        <div class="droppable" ondrop="drop(event)" ondragover="allowDrop(event)" data-match="night">
+                            <p>Allows cats to hunt effectively in low light conditions</p>
+                        </div>
+                        <div class="droppable" ondrop="drop(event)" ondragover="allowDrop(event)" data-match="claws">
+                            <p>Enables silent movement and effective prey capture</p>
+                        </div>
+                        <div class="droppable" ondrop="drop(event)" ondragover="allowDrop(event)" data-match="whiskers">
+                            <p>Helps cats navigate in darkness and measure tight spaces</p>
+                        </div>
+                        <div class="droppable" ondrop="drop(event)" ondragover="allowDrop(event)" data-match="tongue">
+                            <p>Used for grooming and cleaning meat from bones</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="match-feedback"></div>
+                
+                <div class="navigation">
+                    <button class="nav-button prev-button" onclick="prevSlide()">Previous</button>
+                    <button class="nav-button next-button" onclick="nextSlide()">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Behavioral Adaptations -->
+        <div class="slide" id="slide10">
+            <div class="slide-content">
+                <h2>Behavioral Adaptations</h2>
+                <p class="kid-subtitle">Behavioral adaptations that help cats survive</p>
+                
+                <div class="behavior-tiles">
+                    <div class="behavior-tile">
+                        <img src="images/cat-hunting.jpg" alt="Cat Hunting" class="behavior-image">
+                        <div class="behavior-text">
+                            <h3>Hunting</h3>
+                            <p>Cats stalk, pounce, and catch prey using skills they learn as kittens</p>
+                        </div>
+                    </div>
+                    
+                    <div class="behavior-tile">
+                        <img src="images/cat-grooming.jpg" alt="Cat Grooming" class="behavior-image">
+                        <div class="behavior-text">
+                            <h3>Grooming</h3>
+                            <p>Cats clean themselves many times a day to stay clean and healthy</p>
+                        </div>
+                    </div>
+                    
+                    <div class="behavior-tile">
+                        <img src="images/cat-sleeping.jpg" alt="Cat Sleeping" class="behavior-image">
+                        <div class="behavior-text">
+                            <h3>Nap Masters</h3>
+                            <p>Cats sleep up to 16 hours a day to save energy for hunting</p>
+                        </div>
+                    </div>
+                    
+                    <div class="behavior-tile">
+                        <img src="images/cat-playing.jpg" alt="Cat Playing" class="behavior-image">
+                        <div class="behavior-text">
+                            <h3>Play Time</h3>
+                            <p>Cats play to practice their hunting skills and have fun</p>
+                        </div>
+                    </div>
+                    
+                    <div class="behavior-tile">
+                        <img src="images/cat-purring.jpg" alt="Cat Purring" class="behavior-image">
+                        <div class="behavior-text">
+                            <h3>Purring</h3>
+                            <p>Cats purr when happy or hurt - it helps them heal and feel better</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="kid-friendly-box">
+                    <h3>Fun Fact!</h3>
+                    <p>Cats are most active at dawn and dusk. This is when their wild ancestors would hunt!</p>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-button prev-button" onclick="prevSlide()">Previous</button>
+                    <button class="nav-button next-button" onclick="nextSlide()">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Interesting Facts -->
+        <div class="slide" id="slide11">
+            <div class="slide-content">
+                <h2>Fascinating Cat Facts</h2>
+                
+                <div class="fact-container">
+                    <div class="fact-card animate__animated animate__zoomIn animate__delay-1s">
+                        <img src="images/cat-sleeping.jpg" alt="Sleeping Cat" class="fact-image">
+                        <p>Cats sleep for 12-16 hours a day, which means a 9-year-old cat has been awake for only 3 years of its life!</p>
+                    </div>
+                    
+                    <div class="fact-card animate__animated animate__zoomIn animate__delay-2s">
+                        <img src="images/cat-running.jpg" alt="Fast Cat" class="fact-image">
+                        <p>A cat can run at speeds of up to 30 mph (48 km/h) in short bursts.</p>
+                    </div>
+                    
+                    <div class="fact-card animate__animated animate__zoomIn animate__delay-3s">
+                        <img src="images/cat-jumping.jpg" alt="Jumping Cat" class="fact-image">
+                        <p>Cats can jump up to 6 times their length in a single bound.</p>
+                    </div>
+                    
+                    <div class="fact-card animate__animated animate__zoomIn animate__delay-4s">
+                        <img src="images/cat-purring.jpg" alt="Purring Cat" class="fact-image">
+                        <p>A cat's purr vibrates at a frequency of 25 to 150 hertz, which can promote healing and bone growth.</p>
+                    </div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-button prev-button" onclick="prevSlide()">Previous</button>
+                    <button class="nav-button next-button" onclick="nextSlide()">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Threats -->
+        <div class="slide" id="slide12">
+            <div class="slide-content">
+                <h2>Threats to Domestic Cats</h2>
+                
+                <div class="two-column">
+                    <div class="column">
+                        <img src="images/cat-closeup.jpg" alt="Cat Adaptations" class="slide-image">
+                    </div>
+                    <div class="column">
+                        <ul class="description-list">
+                            <li class="animate__animated animate__fadeInRight animate__delay-1s"><strong>Health Issues:</strong> Common diseases include kidney disease, dental problems, and diabetes</li>
+                            <li class="animate__animated animate__fadeInRight animate__delay-2s"><strong>Predators:</strong> Outdoor cats face threats from larger predators like coyotes and hawks</li>
+                            <li class="animate__animated animate__fadeInRight animate__delay-3s"><strong>Traffic:</strong> Road accidents are a leading cause of death for outdoor cats</li>
+                            <li class="animate__animated animate__fadeInRight animate__delay-4s"><strong>Environmental Toxins:</strong> Exposure to pesticides, antifreeze, and other chemicals</li>
+                            <li class="animate__animated animate__fadeInRight animate__delay-5s"><strong>Overpopulation:</strong> Leads to resource competition and increased euthanasia rates</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <p>According to the American Veterinary Medical Association (AVMA), proper veterinary care, keeping cats indoors, and spaying/neutering can help address many of these threats and improve feline welfare.</p>
+                
+                <div class="navigation">
+                    <button class="nav-button prev-button" onclick="prevSlide()">Previous</button>
+                    <button class="nav-button next-button" onclick="nextSlide()">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Personal Connection -->
+        <div class="slide" id="slide13">
+            <div class="slide-content">
+                <h2>Your Cat Connection</h2>
+                
+                <div class="reflection-box">
+                    <h3>Our Love for Cats</h3>
+                    <p class="reflection-text">We legitimately love cats, and we hope you do too! That was our whole motivation for choosing to create a presentation on them; they're just too darn adorable!!</p>
+                </div>
+                
+                <div class="reflection-activity">
+                    <h3>Class Activity</h3>
+                    <p>Draw your favorite cat adaptation and explain why you think it's important for the cat's survival.</p>
+                    <img src="images/children-drawing.jpg" alt="Drawing Activity" class="slide-image">
+                    <button id="launch-drawing" class="drawing-button">Open Drawing Canvas</button>
+                    <p class="activity-credit">Activity designed by Nico (I was up for 4 hours tryna fix this one thing)</p>
+                </div>
+                
+                <!-- Drawing Canvas Overlay -->
+                <div id="drawing-canvas-container" class="hidden">
+                    <div class="canvas-header">
+                        <h2>Cat Adaptation Drawing Canvas</h2>
+                        <div class="canvas-tools">
+                            <div class="tool-group">
+                                <label>Brush Color</label>
+                                <input type="color" id="color-picker" value="#1a73e8">
+                                <div class="color-presets">
+                                    <div class="color-preset" data-color="#1a73e8" style="background-color: #1a73e8;"></div>
+                                    <div class="color-preset" data-color="#e74c3c" style="background-color: #e74c3c;"></div>
+                                    <div class="color-preset" data-color="#2ecc71" style="background-color: #2ecc71;"></div>
+                                    <div class="color-preset" data-color="#f39c12" style="background-color: #f39c12;"></div>
+                                    <div class="color-preset" data-color="#9b59b6" style="background-color: #9b59b6;"></div>
+                                    <div class="color-preset" data-color="#000000" style="background-color: #000000;"></div>
+                                </div>
+                            </div>
+                            <div class="tool-group">
+                                <label>Brush Size</label>
+                                <input type="range" id="brush-size" min="1" max="50" value="10">
+                                <span id="size-display">10px</span>
+                            </div>
+                            <div class="tool-group">
+                                <button id="eraser-tool" class="tool-button">Eraser</button>
+                                <button id="brush-tool" class="tool-button active">Brush</button>
+                                <button id="clear-canvas" class="tool-button">Clear All</button>
+                            </div>
+                        </div>
+                        <button id="close-canvas" class="close-button">Close Canvas</button>
+                    </div>
+                    <canvas id="drawing-canvas"></canvas>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-button prev-button" onclick="prevSlide()">Previous</button>
+                    <button class="nav-button next-button" onclick="nextSlide()">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: References -->
+        <div class="slide" id="slide14">
+            <div class="slide-content">
+                <h2>References & Resources</h2>
+                
+                <ul class="reference-list">
+                    <li>International Cat Care. "Cat History and Evolution." <a href="https://icatcare.org/advice/the-origins-of-cats/" target="_blank">https://icatcare.org/advice/the-origins-of-cats/</a></li>
+                    <li>National Geographic. "Cats: Domesticated, Yet Still Wild." <a href="https://www.nationalgeographic.com/animals/mammals/facts/domestic-cat" target="_blank">https://www.nationalgeographic.com/animals/mammals/facts/domestic-cat</a></li>
+                    <li>American Veterinary Medical Association. "Cat Care and Health." <a href="https://www.avma.org/resources-tools/pet-owners/petcare/cats-need-regular-veterinary-care" target="_blank">https://www.avma.org/resources-tools/pet-owners/petcare/cats-need-regular-veterinary-care</a></li>
+                    <li>Smithsonian Magazine. "The Evolution of House Cats." <a href="https://www.smithsonianmag.com/history/a-brief-history-of-house-cats-158390681/" target="_blank">https://www.smithsonianmag.com/history/a-brief-history-of-house-cats-158390681/</a></li>
+                    <li>Cornell University College of Veterinary Medicine. "Cat Health Topics." <a href="https://www.vet.cornell.edu/departments-centers-and-institutes/cornell-feline-health-center/health-information" target="_blank">https://www.vet.cornell.edu/departments-centers-and-institutes/cornell-feline-health-center/health-information</a></li>
+                </ul>
+                
+                <div class="presentation-credits">
+                    <p>This presentation was created by:</p>
+                    <h3>Angel Chinchilla, Christopher Lopez, Nico Bellantoni</h3>
+                    <p>My cat is on my keyboadjnafilauhneiofuweshfmkwefhbneaskfjxshebfjkeshnxbafejszhrfgbszukxfchsbb</p>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-button prev-button" onclick="prevSlide()">Previous</button>
+                    <button class="nav-button home-button" onclick="goToSlide(1)">Back to Start</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

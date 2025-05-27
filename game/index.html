@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Knowledge Bubble Shooter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+/* Main Styles */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    background: linear-gradient(135deg, #1a73e8 0%, #6c5ce7 100%);
+    color: #fff;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+}
+
+/* Loading Screen Styles */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a73e8, #6c5ce7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+.loading-content {
+    text-align: center;
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 3rem;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 80%;
+}
+
+.loading-content h2 {
+    color: white;
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.loading-content p {
+    font-size: 1.1rem;
+    opacity: 0.8;
+    margin-top: 1rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    margin: 1rem auto;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.cat-silhouette {
+    width: 100px;
+    height: 100px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="white" d="M290.59,192c-20.18,0-106.82,1.98-162.59,85.95V192c0-52.94-43.06-96-96-96-17.67,0-32,14.33-32,32s14.33,32,32,32c17.64,0,32,14.36,32,32v256c0,35.3,28.7,64,64,64h176c8.84,0,16-7.16,16-16v-16c0-17.67-14.33-32-32-32h-32l128-96v144c0,8.84,7.16,16,16,16h32c8.84,0,16-7.16,16-16V289.86c-10.29,2.67-20.89,4.54-32,4.54-61.81,0-113.52-44.05-125.41-102.4zM448,96h-64l-64-64v134.4c0,53.02,42.98,96,96,96s96-42.98,96-96V32l-64,64zm-72,80c-8.84,0-16-7.16-16-16s7.16-16,16-16,16,7.16,16,16-7.16,16-16,16z"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0 auto 1rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.engine-attribution {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dabicco-logo {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 0.5rem;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+.engine-attribution p {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-top: 0.5rem;
+    font-style: italic;
+    color: #e0e0e0;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Main Menu Styles */
+#main-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    background: linear-gradient(135deg, #1a73e8, #6c5ce7);
+    transition: opacity 0.5s ease-out;
+}
+
+.menu-container {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 600px;
+}
+
+.menu-container h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    line-height: 1.2;
+}
+
+.menu-container h1 span {
+    color: #ffda79;
+    font-size: 3.5rem;
+    display: block;
+}
+
+.menu-cat-container {
+    width: 150px;
+    height: 150px;
+    margin: 2rem auto;
+    position: relative;
+}
+
+.menu-cat {
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="white" d="M290.59,192c-20.18,0-106.82,1.98-162.59,85.95V192c0-52.94-43.06-96-96-96-17.67,0-32,14.33-32,32s14.33,32,32,32c17.64,0,32,14.36,32,32v256c0,35.3,28.7,64,64,64h176c8.84,0,16-7.16,16-16v-16c0-17.67-14.33-32-32-32h-32l128-96v144c0,8.84,7.16,16,16,16h32c8.84,0,16-7.16,16-16V289.86c-10.29,2.67-20.89,4.54-32,4.54-61.81,0-113.52-44.05-125.41-102.4zM448,96h-64l-64-64v134.4c0,53.02,42.98,96,96,96s96-42.98,96-96V32l-64,64zm-72,80c-8.84,0-16-7.16-16-16s7.16-16,16-16,16,7.16,16,16-7.16,16-16,16z"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: bounce 2s infinite ease-in-out;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.menu-button {
+    background: linear-gradient(45deg, #ffda79, #ff9f43);
+    color: #333;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    font-family: 'Montserrat', sans-serif;
+}
+
+.menu-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(45deg, #ffd166, #ff7b00);
+}
+
+.credits {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+/* How to Play Screen */
+#how-to-play {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    background: linear-gradient(135deg, #1a73e8, #6c5ce7);
+}
+
+.instructions-container {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 600px;
+}
+
+.instructions-container h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.instructions {
+    text-align: left;
+    margin-bottom: 2rem;
+}
+
+.instructions p {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.instructions p::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    width: 10px;
+    height: 10px;
+    background-color: #ffda79;
+    border-radius: 50%;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-around;
+    margin: 2rem 0;
+}
+
+.control-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.control-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.control-icon.mouse {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="white" d="M0 192H176V0H160C71.6 0 0 71.6 0 160v32zm0 32V352c0 88.4 71.6 160 160 160h64c88.4 0 160-71.6 160-160V224H0zm224 288c-35.3 0-64-28.7-64-64V352h128v64c0 35.3-28.7 64-64 64z"/></svg>');
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.control-icon.click {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="white" d="M123.6 391.3c12.9-9.4 29.6-11.8 44.6-6.4c26.5 9.6 56.2 15.1 87.8 15.1c124.7 0 208-80.5 208-160s-83.3-160-208-160S48 160.5 48 240c0 32 12.4 62.8 35.7 89.2c8.6 9.7 12.8 22.5 11.8 35.5c-1.4 18.1-5.7 34.7-11.3 49.4c17-7.9 31.1-16.7 39.4-22.7zM21.2 431.9c1.8-2.7 3.5-5.4 5.1-8.1c10-16.6 19.5-38.4 21.4-62.9C17.7 326.8 0 285.1 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208s-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.6c-15.1 6.6-32.3 12.6-50.1 16.1c-.8 .2-1.6 .3-2.4 .5c-4.4 .8-8.7 1.5-13.2 1.9c-.2 0-.5 .1-.7 .1c-5.1 .5-10.2 .8-15.3 .8c-6.5 0-12.3-3.9-14.8-9.9c-2.5-6-1.1-12.8 3.4-17.4c4.1-4.2 7.8-8.7 11.3-13.5c1.7-2.3 3.3-4.6 4.8-6.9c.1-.2 .2-.3 .3-.5z"/></svg>');
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Game Canvas Styles */
+#game-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, #0a4fa8 0%, #1a73e8 100%);
+    overflow: hidden;
+}
+
+.game-ui {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    padding: 1rem;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 50px;
+    padding: 0.5rem 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.score-container, .level-container, .time-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#question-container {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    padding: 1rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    backdrop-filter: blur(5px);
+}
+
+#question {
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+#game-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#cannon-container {
+    position: fixed; /* Changed to fixed to ensure it stays visible */
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px; /* Made larger */
+    height: 80px;
+    z-index: 9999; /* Very high z-index to ensure visibility */
+    background: linear-gradient(135deg, #ff9f43, #e67e22);
+    border-radius: 50%;
+    box-shadow: 0 0 30px rgba(255, 159, 67, 0.8), 0 0 0 5px white;
+    border: 3px solid #fff;
+    animation: pulse-launcher 1.5s infinite ease-in-out;
+    pointer-events: none; /* Allow clicks to pass through */
+}
+
+@keyframes pulse-launcher {
+    0% { transform: translateX(-50%) scale(1); box-shadow: 0 0 20px rgba(255, 159, 67, 0.7); }
+    50% { transform: translateX(-50%) scale(1.1); box-shadow: 0 0 30px rgba(255, 159, 67, 0.9); }
+    100% { transform: translateX(-50%) scale(1); box-shadow: 0 0 20px rgba(255, 159, 67, 0.7); }
+}
+
+#cannon {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="white" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>');
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.game-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.game-button:hover {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/* Pause Menu Styles */
+#pause-menu, #game-over, #level-complete {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+}
+
+.pause-container, .game-over-container, .level-complete-container {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 400px;
+}
+
+.pause-container h2, .game-over-container h2, .level-complete-container h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.final-score, .highest-level, .level-score, .bonus-points, .total-score {
+    margin: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+#final-score, #highest-level, #level-score, #time-bonus, #total-score {
+    font-weight: 700;
+    color: #ffda79;
+}
+
+/* Bubble Styles */
+.bubble {
+    position: absolute;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    color: #333;
+    box-shadow: inset 0 -10px 20px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    animation: bubbleFloat 2s infinite alternate;
+}
+
+@keyframes bubbleFloat {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-10px) rotate(5deg); }
+}
+
+/* Helper Classes */
+.hidden {
+    display: none !important;
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+@keyframes bubblePop {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.5; }
+    100% { transform: scale(0); opacity: 0; }
+}
+
+@keyframes shoot {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-100vh); opacity: 0; }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .menu-container h1 {
+        font-size: 2.5rem;
+    }
+    
+    .menu-container h1 span {
+        font-size: 3rem;
+    }
+    
+    .menu-button {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+    }
+    
+    #question {
+        font-size: 1.1rem;
+    }
+    
+    .controls {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+}
+</style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="cat-silhouette"></div>
+            <div class="loading-spinner"></div>
+            <h2>Loading Cat Game</h2>
+            <p>Get ready to test your cat knowledge!</p>
+            <div class="engine-attribution">
+                <img src="../images/dabicco-logo.svg" alt="Dabicco Engine Logo" class="dabicco-logo">
+                <p>Powered by Dabicco Engine 8</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Menu -->
+    <div id="main-menu" class="hidden">
+        <div class="menu-container">
+            <h1>Cat Knowledge<br><span>Bubble Shooter</span></h1>
+            <div class="menu-cat-container">
+                <div class="menu-cat"></div>
+            </div>
+            <div class="menu-buttons">
+                <button id="start-game-btn" class="menu-button">Start Game</button>
+                <button id="how-to-play-btn" class="menu-button">How to Play</button>
+                <button id="back-to-slides-btn" class="menu-button">Back to Slideshow</button>
+            </div>
+            <div class="credits">Created by Angel Chinchilla, Christopher Lopez, Nico Bellantoni</div>
+        </div>
+    </div>
+
+    <!-- How to Play Screen -->
+    <div id="how-to-play" class="hidden">
+        <div class="instructions-container">
+            <h2>How to Play</h2>
+            <div class="instructions">
+                <p>1. A question about cats will appear at the top of the screen</p>
+                <p>2. Colorful bubbles with possible answers will float around</p>
+                <p>3. Aim and click to shoot at the bubble with the correct answer</p>
+                <p>4. Score points for correct answers and complete all levels</p>
+                <p>5. Be quick! You have limited time for each question</p>
+            </div>
+            <div class="controls">
+                <div class="control-item">
+                    <div class="control-icon mouse"></div>
+                    <p>Aim with your mouse</p>
+                </div>
+                <div class="control-item">
+                    <div class="control-icon click"></div>
+                    <p>Click to shoot</p>
+                </div>
+            </div>
+            <button id="back-to-menu" class="menu-button">Back to Menu</button>
+        </div>
+    </div>
+
+    <!-- Game Canvas -->
+    <div id="game-container" class="hidden">
+        <div class="game-ui">
+            <div class="game-header">
+                <div class="score-container">
+                    <span>Score:</span>
+                    <span id="score">0</span>
+                </div>
+                <div class="level-container">
+                    <span>Level:</span>
+                    <span id="level">1</span>
+                </div>
+                <div class="time-container">
+                    <span>Time:</span>
+                    <span id="time">30</span>
+                </div>
+            </div>
+            <div id="question-container">
+                <h2 id="question">Loading question...</h2>
+            </div>
+        </div>
+        <canvas id="game-canvas"></canvas>
+        <div id="cannon-container">
+            <div id="cannon"></div>
+        </div>
+        <button id="pause-btn" class="game-button">Pause</button>
+    </div>
+
+    <!-- Pause Menu -->
+    <div id="pause-menu" class="hidden">
+        <div class="pause-container">
+            <h2>Game Paused</h2>
+            <button id="resume-btn" class="menu-button">Resume</button>
+            <button id="restart-btn" class="menu-button">Restart</button>
+            <button id="exit-to-menu-btn" class="menu-button">Exit to Menu</button>
+        </div>
+    </div>
+
+    <!-- Game Over Screen -->
+    <div id="game-over" class="hidden">
+        <div class="game-over-container">
+            <h2>Game Over!</h2>
+            <div class="final-score">
+                <p>Your Score:</p>
+                <p id="final-score">0</p>
+            </div>
+            <div class="highest-level">
+                <p>Highest Level Reached:</p>
+                <p id="highest-level">1</p>
+            </div>
+            <button id="play-again-btn" class="menu-button">Play Again</button>
+            <button id="game-over-menu-btn" class="menu-button">Back to Menu</button>
+        </div>
+    </div>
+
+    <!-- Level Complete Screen -->
+    <div id="level-complete" class="hidden">
+        <div class="level-complete-container">
+            <h2>Level Complete!</h2>
+            <div class="level-score">
+                <p>Level Score:</p>
+                <p id="level-score">0</p>
+            </div>
+            <div class="bonus-points">
+                <p>Time Bonus:</p>
+                <p id="time-bonus">0</p>
+            </div>
+            <div class="total-score">
+                <p>Total Score:</p>
+                <p id="total-score">0</p>
+            </div>
+            <button id="next-level-btn" class="menu-button">Next Level</button>
+        </div>
+    </div>
+
+    <script>
+// Cat Knowledge Bubble Shooter Game
+
+// Game Configuration
+const config = {
+    loadingTime: 2000,      // Time to show loading screen (ms)
+    gameDuration: 30,       // Time per level (seconds)
+    bubbleSpeed: 1.5,       // Base movement speed of bubbles
+    bubbleSpawnRate: 2000,  // Time between bubble spawns (ms)
+    bulletSpeed: 10,        // Speed of bullets
+    basePoints: 100,        // Base points for correct answer
+    timeBonus: 10,          // Points per second remaining
+    totalLevels: 5          // Total number of game levels
+};
+
+// Game State
+const gameState = {
+    isPlaying: false,
+    currentLevel: 1,
+    score: 0,
+    timeRemaining: config.gameDuration,
+    gameTimer: null,
+    bubbles: [],
+    bullets: [],
+    currentQuestion: null,
+    correctAnswer: null,
+    cannonAngle: 0,
+    mouseX: 0,
+    mouseY: 0,
+    usedQuestionIndices: [] // Track which questions have been used
+};
+
+// Game Questions from the Domestic Cats Slideshow (only those covered in the slides)
+const gameQuestions = [
+    {
+        question: "What is the scientific name for domestic cats?",
+        answers: ["Felis catus", "Canis lupus", "Panthera leo", "Felis silvestris"],
+        correct: "Felis catus"
+    },
+    {
+        question: "What are the cat's claws used for?",
+        answers: ["Climbing and hunting", "Swimming", "Digging burrows", "Fighting predators"],
+        correct: "Climbing and hunting"
+    },
+    {
+        question: "What feature helps cats see well in low light?",
+        answers: ["Tapetum lucidum", "Extra rods", "Infrared vision", "Large pupils"],
+        correct: "Tapetum lucidum"
+    },
+    {
+        question: "How many hours do domestic cats typically sleep per day?",
+        answers: ["12-16 hours", "4-8 hours", "8-10 hours", "18-20 hours"],
+        correct: "12-16 hours"
+    },
+    {
+        question: "What is special about a cat's tongue?",
+        answers: ["It has tiny barbs", "It changes color", "It is completely smooth", "It produces saliva with healing properties"],
+        correct: "It has tiny barbs"
+    },
+    {
+        question: "What diet classification applies to cats?",
+        answers: ["Carnivores", "Omnivores", "Herbivores", "Orange Chicken"],
+        correct: "Carnivores"
+    },
+    {
+        question: "What helps cats always land on their feet?",
+        answers: ["Soft Paws", "Wing-like skin", "Magnetic sensing", "Hollow bones"],
+        correct: "Soft Paws"
+    },
+    {
+        question: "Which of these is a primary threat to domestic cats?",
+        answers: ["Vehicle accidents", "Volcanic eruptions", "Quicksand", "Avalanches"],
+        correct: "Vehicle accidents"
+    },
+    {
+        question: "Which organization recommends keeping cats indoors?",
+        answers: ["AVMA", "FIFA", "NASA", "You should keep cats outdoors"],
+        correct: "AVMA"
+    }
+];
+
+// DOM Elements
+let canvas, ctx;
+let loadingScreen, mainMenu, howToPlay, gameContainer, pauseMenu, gameOverScreen, levelCompleteScreen;
+let scoreDisplay, levelDisplay, timeDisplay, questionDisplay, finalScoreDisplay, highestLevelDisplay;
+let cannonElement, levelScoreDisplay, timeBonusDisplay, totalScoreDisplay;
+
+// Game Initialization
+window.addEventListener('load', function() {
+    // Initialize DOM elements
+    initializeDOM();
+    
+    // Show loading screen
+    setTimeout(function() {
+        loadingScreen.classList.add('hidden');
+        mainMenu.classList.remove('hidden');
+    }, config.loadingTime);
+    
+    // Event listeners
+    addEventListeners();
+});
+
+// Initialize DOM Elements
+function initializeDOM() {
+    // Screens
+    loadingScreen = document.getElementById('loading-screen');
+    mainMenu = document.getElementById('main-menu');
+    howToPlay = document.getElementById('how-to-play');
+    gameContainer = document.getElementById('game-container');
+    pauseMenu = document.getElementById('pause-menu');
+    gameOverScreen = document.getElementById('game-over');
+    levelCompleteScreen = document.getElementById('level-complete');
+    
+    // Game Elements
+    canvas = document.getElementById('game-canvas');
+    ctx = canvas.getContext('2d');
+    cannonElement = document.getElementById('cannon');
+    
+    // UI Elements
+    scoreDisplay = document.getElementById('score');
+    levelDisplay = document.getElementById('level');
+    timeDisplay = document.getElementById('time');
+    questionDisplay = document.getElementById('question');
+    finalScoreDisplay = document.getElementById('final-score');
+    highestLevelDisplay = document.getElementById('highest-level');
+    levelScoreDisplay = document.getElementById('level-score');
+    timeBonusDisplay = document.getElementById('time-bonus');
+    totalScoreDisplay = document.getElementById('total-score');
+    
+    // Set canvas size
+    resizeCanvas();
+}
+
+// Add Event Listeners
+function addEventListeners() {
+    // Menu Buttons
+    document.getElementById('start-game-btn').addEventListener('click', startGame);
+    document.getElementById('how-to-play-btn').addEventListener('click', showHowToPlay);
+    document.getElementById('back-to-slides-btn').addEventListener('click', backToSlideshow);
+    document.getElementById('back-to-menu').addEventListener('click', backToMainMenu);
+    
+    // Game Control Buttons
+    document.getElementById('pause-btn').addEventListener('click', pauseGame);
+    document.getElementById('resume-btn').addEventListener('click', resumeGame);
+    document.getElementById('restart-btn').addEventListener('click', restartGame);
+    document.getElementById('exit-to-menu-btn').addEventListener('click', exitToMainMenu);
+    document.getElementById('play-again-btn').addEventListener('click', restartGame);
+    document.getElementById('game-over-menu-btn').addEventListener('click', exitToMainMenu);
+    document.getElementById('next-level-btn').addEventListener('click', nextLevel);
+    
+    // Mouse movement for cannon aiming
+    gameContainer.addEventListener('mousemove', updateCannonAngle);
+    
+    // Click to shoot
+    gameContainer.addEventListener('click', shootBubble);
+    
+    // Window resize
+    window.addEventListener('resize', resizeCanvas);
+}
+
+// Resize Canvas
+function resizeCanvas() {
+    if (canvas) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+}
+
+// Game Flow Functions
+function startGame() {
+    mainMenu.classList.add('hidden');
+    gameContainer.classList.remove('hidden');
+    gameState.isPlaying = true;
+    gameState.currentLevel = 1;
+    gameState.score = 0;
+    gameState.usedQuestionIndices = []; // Reset used questions
+    
+    // Update displays
+    scoreDisplay.textContent = gameState.score;
+    levelDisplay.textContent = gameState.currentLevel;
+    
+    // Start level
+    startLevel();
+    
+    // Start game loop
+    requestAnimationFrame(gameLoop);
+}
+
+function startLevel() {
+    // Clear existing bubbles and bullets
+    gameState.bubbles = [];
+    gameState.bullets = [];
+    
+    // Set time for level
+    gameState.timeRemaining = config.gameDuration;
+    timeDisplay.textContent = gameState.timeRemaining;
+    
+    // Select a random question that hasn't been used yet
+    let availableQuestions = [];
+    for (let i = 0; i < gameQuestions.length; i++) {
+        if (!gameState.usedQuestionIndices.includes(i)) {
+            availableQuestions.push(i);
+        }
+    }
+    
+    // If we've used all questions, reset the used questions
+    if (availableQuestions.length === 0) {
+        gameState.usedQuestionIndices = [];
+        availableQuestions = [...Array(gameQuestions.length).keys()];
+    }
+    
+    // Select a random question from available ones
+    const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+    const questionIndex = availableQuestions[randomIndex];
+    gameState.usedQuestionIndices.push(questionIndex);
+    gameState.currentQuestion = gameQuestions[questionIndex];
+    gameState.correctAnswer = gameState.currentQuestion.correct;
+    
+    // Display question
+    questionDisplay.textContent = gameState.currentQuestion.question;
+    
+    // Start the timer
+    clearInterval(gameState.gameTimer);
+    gameState.gameTimer = setInterval(updateTimer, 1000);
+    
+    // Start spawning bubbles
+    spawnBubbles();
+}
+
+function updateTimer() {
+    gameState.timeRemaining--;
+    timeDisplay.textContent = gameState.timeRemaining;
+    
+    if (gameState.timeRemaining <= 0) {
+        // Time's up
+        clearInterval(gameState.gameTimer);
+        endLevel(false);
+    }
+}
+
+function endLevel(completed) {
+    clearInterval(gameState.gameTimer);
+    gameState.isPlaying = false;
+    
+    if (completed) {
+        // Level completed successfully
+        const timeBonus = gameState.timeRemaining * config.timeBonus;
+        const levelScore = gameState.currentLevel * config.basePoints;
+        gameState.score += levelScore + timeBonus;
+        
+        // Update level complete screen
+        levelScoreDisplay.textContent = levelScore;
+        timeBonusDisplay.textContent = timeBonus;
+        totalScoreDisplay.textContent = gameState.score;
+        
+        // Show level complete screen
+        levelCompleteScreen.classList.remove('hidden');
+    } else {
+        // Game over
+        finalScoreDisplay.textContent = gameState.score;
+        highestLevelDisplay.textContent = gameState.currentLevel;
+        gameOverScreen.classList.remove('hidden');
+    }
+}
+
+function nextLevel() {
+    levelCompleteScreen.classList.add('hidden');
+    
+    if (gameState.currentLevel < config.totalLevels) {
+        gameState.currentLevel++;
+        levelDisplay.textContent = gameState.currentLevel;
+        gameState.isPlaying = true;
+        startLevel();
+    } else {
+        // Game completed
+        finalScoreDisplay.textContent = gameState.score;
+        highestLevelDisplay.textContent = gameState.currentLevel;
+        gameOverScreen.classList.remove('hidden');
+    }
+}
+
+// Navigation Functions
+function showHowToPlay() {
+    mainMenu.classList.add('hidden');
+    howToPlay.classList.remove('hidden');
+}
+
+function backToMainMenu() {
+    howToPlay.classList.add('hidden');
+    mainMenu.classList.remove('hidden');
+}
+
+function backToSlideshow() {
+    window.location.href = "../index.html";
+}
+
+function pauseGame() {
+    if (gameState.isPlaying) {
+        gameState.isPlaying = false;
+        clearInterval(gameState.gameTimer);
+        pauseMenu.classList.remove('hidden');
+    }
+}
+
+function resumeGame() {
+    if (!gameState.isPlaying) {
+        gameState.isPlaying = true;
+        gameState.gameTimer = setInterval(updateTimer, 1000);
+        pauseMenu.classList.add('hidden');
+    }
+}
+
+function restartGame() {
+    pauseMenu.classList.add('hidden');
+    gameOverScreen.classList.add('hidden');
+    startGame();
+}
+
+function exitToMainMenu() {
+    pauseMenu.classList.add('hidden');
+    gameOverScreen.classList.add('hidden');
+    gameContainer.classList.add('hidden');
+    mainMenu.classList.remove('hidden');
+    clearInterval(gameState.gameTimer);
+}
+
+// Gameplay Functions
+// Simple aiming function - just track mouse position
+function updateCannonAngle(e) {
+    if (!gameState.isPlaying) return;
+    
+    // Just store mouse position for shooting
+    gameState.mouseX = e.clientX;
+    gameState.mouseY = e.clientY;
+}
+
+// Ultra simple direct shooting - no complex aiming, just shoot directly from bottom to click point
+function shootBubble(e) {
+    if (!gameState.isPlaying) return;
+    
+    // Start position is fixed at bottom center of screen
+    const startX = canvas.width / 2;
+    const startY = canvas.height - 50;
+    
+    // Direction is directly to where the user clicked
+    const targetX = e.clientX;
+    const targetY = e.clientY;
+    
+    // Calculate direction vector
+    const dx = targetX - startX;
+    const dy = targetY - startY;
+    
+    // Normalize to get unit vector
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const normalizedDx = dx / distance;
+    const normalizedDy = dy / distance;
+    
+    // Calculate velocity based on normalized direction
+    const vx = normalizedDx * config.bulletSpeed;
+    const vy = normalizedDy * config.bulletSpeed;
+    
+    // Create bullet with this direction
+    gameState.bullets.push({
+        x: startX,
+        y: startY,
+        vx: vx,
+        vy: vy,
+        width: 20,
+        height: 20,
+        active: true
+    });
+    
+    // Play shooting sound
+    playSound('shoot');
+}
+
+function spawnBubbles() {
+    if (!gameState.isPlaying) return;
+    
+    // Get all possible answers for current question
+    const answers = [...gameState.currentQuestion.answers];
+    
+    // Create bubble for each answer
+    for (let i = 0; i < answers.length; i++) {
+        const size = Math.floor(Math.random() * 30) + 60; // Random size between 60 and 90
+        const speed = config.bubbleSpeed * (1 + (Math.random() * 0.5 - 0.25)); // Random speed variation
+        
+        // Random position
+        const x = Math.random() * (canvas.width - size);
+        const y = Math.random() * (canvas.height / 2) + 100; // In the top half of the screen
+        
+        // Random direction
+        const angle = Math.random() * Math.PI * 2;
+        const vx = Math.cos(angle) * speed;
+        const vy = Math.sin(angle) * speed;
+        
+        // Random color
+        const colors = ['#ffda79', '#ff9f43', '#1a73e8', '#6c5ce7', '#2ecc71', '#e74c3c'];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        
+        // Add bubble to game state
+        gameState.bubbles.push({
+            x: x,
+            y: y,
+            vx: vx,
+            vy: vy,
+            size: size,
+            color: color,
+            text: answers[i],
+            isCorrect: answers[i] === gameState.correctAnswer,
+            active: true
+        });
+    }
+}
+
+// Game Loop
+function gameLoop() {
+    if (!canvas) return;
+    
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    if (gameState.isPlaying) {
+        // Update and draw bubbles
+        updateBubbles();
+        
+        // Update and draw bullets
+        updateBullets();
+        
+        // Check collisions
+        checkCollisions();
+    }
+    
+    // Continue game loop
+    requestAnimationFrame(gameLoop);
+}
+
+function updateBubbles() {
+    for (let i = 0; i < gameState.bubbles.length; i++) {
+        const bubble = gameState.bubbles[i];
+        if (!bubble.active) continue;
+        
+        // Move bubble
+        bubble.x += bubble.vx;
+        bubble.y += bubble.vy;
+        
+        // Bounce off walls
+        if (bubble.x <= 0 || bubble.x + bubble.size >= canvas.width) {
+            bubble.vx *= -1;
+        }
+        if (bubble.y <= 0 || bubble.y + bubble.size >= canvas.height) {
+            bubble.vy *= -1;
+        }
+        
+        // Draw bubble
+        ctx.beginPath();
+        ctx.arc(bubble.x + bubble.size/2, bubble.y + bubble.size/2, bubble.size/2, 0, Math.PI * 2);
+        ctx.fillStyle = bubble.color;
+        ctx.fill();
+        
+        // Add shiny effect
+        ctx.beginPath();
+        ctx.arc(bubble.x + bubble.size/3, bubble.y + bubble.size/3, bubble.size/6, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+        ctx.fill();
+        
+        // Add text
+        ctx.font = `${Math.max(12, Math.min(16, bubble.size/4))}px Montserrat, sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = '#333';
+        
+        // Word wrap text if needed
+        const maxWidth = bubble.size * 0.8;
+        const words = bubble.text.split(' ');
+        let line = '';
+        let lines = [];
+        let y = bubble.y + bubble.size/2;
+        
+        for (let n = 0; n < words.length; n++) {
+            const testLine = line + words[n] + ' ';
+            const metrics = ctx.measureText(testLine);
+            const testWidth = metrics.width;
+            
+            if (testWidth > maxWidth && n > 0) {
+                lines.push(line);
+                line = words[n] + ' ';
+            } else {
+                line = testLine;
+            }
+        }
+        lines.push(line);
+        
+        // Draw text lines
+        const lineHeight = parseInt(ctx.font);
+        const startY = y - (lines.length - 1) * lineHeight / 2;
+        
+        for (let l = 0; l < lines.length; l++) {
+            ctx.fillText(lines[l], bubble.x + bubble.size/2, startY + l * lineHeight);
+        }
+    }
+}
+
+// Add custom cursor style for targeting
+document.addEventListener('DOMContentLoaded', function() {
+    const gameContainer = document.getElementById('game-container');
+    if (gameContainer) {
+        gameContainer.style.cursor = 'crosshair';
+    }
+});
+
+function updateBullets() {
+    for (let i = 0; i < gameState.bullets.length; i++) {
+        const bullet = gameState.bullets[i];
+        if (!bullet.active) continue;
+        
+        // Move bullet
+        bullet.x += bullet.vx;
+        bullet.y += bullet.vy;
+        
+        // Check if bullet is out of bounds
+        if (bullet.x < 0 || bullet.x > canvas.width || bullet.y < 0 || bullet.y > canvas.height) {
+            bullet.active = false;
+            continue;
+        }
+        
+        // Draw bullet with trail effect
+        // Outer glow
+        ctx.beginPath();
+        ctx.arc(bullet.x, bullet.y, 15, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 218, 121, 0.3)';
+        ctx.fill();
+        
+        // Main bullet body
+        ctx.beginPath();
+        ctx.arc(bullet.x, bullet.y, 12, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffda79';
+        ctx.fill();
+        ctx.strokeStyle = '#ff9f43';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        // Draw paw print on bullet
+        ctx.beginPath();
+        ctx.arc(bullet.x, bullet.y, 6, 0, Math.PI * 2);
+        ctx.fillStyle = '#e67e22';
+        ctx.fill();
+        
+        // Small circles for toe beans
+        for (let j = 0; j < 4; j++) {
+            const angle = j * Math.PI / 2;
+            const toeX = bullet.x + Math.cos(angle) * 8;
+            const toeY = bullet.y + Math.sin(angle) * 8;
+            
+            ctx.beginPath();
+            ctx.arc(toeX, toeY, 3, 0, Math.PI * 2);
+            ctx.fillStyle = '#e67e22';
+            ctx.fill();
+        }
+        
+        // Add trailing effect
+        for (let t = 1; t <= 3; t++) {
+            const trailX = bullet.x - (bullet.vx * t * 0.5);
+            const trailY = bullet.y - (bullet.vy * t * 0.5);
+            ctx.beginPath();
+            ctx.arc(trailX, trailY, 12 - (t * 3), 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 218, 121, ${0.3 - (t * 0.1)})`;
+            ctx.fill();
+        }
+    }
+}
+
+function checkCollisions() {
+    let allBubblesPopped = true;
+    
+    for (let i = 0; i < gameState.bubbles.length; i++) {
+        const bubble = gameState.bubbles[i];
+        if (!bubble.active) continue;
+        
+        allBubblesPopped = false;
+        
+        for (let j = 0; j < gameState.bullets.length; j++) {
+            const bullet = gameState.bullets[j];
+            if (!bullet.active) continue;
+            
+            // Check distance between bullet and bubble center
+            const bubbleCenterX = bubble.x + bubble.size/2;
+            const bubbleCenterY = bubble.y + bubble.size/2;
+            const dx = bullet.x - bubbleCenterX;
+            const dy = bullet.y - bubbleCenterY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            // If collision detected
+            if (distance < bubble.size/2 + 10) {
+                bullet.active = false;
+                bubble.active = false;
+                
+                // Create pop effect
+                createPopEffect(bubbleCenterX, bubbleCenterY, bubble.color);
+                
+                // Check if correct answer
+                if (bubble.isCorrect) {
+                    // Correct answer
+                    gameState.score += config.basePoints;
+                    scoreDisplay.textContent = gameState.score;
+                    playSound('correct');
+                    
+                    // End level if no more bubbles
+                    setTimeout(function() {
+                        let anyActive = false;
+                        for (let k = 0; k < gameState.bubbles.length; k++) {
+                            if (gameState.bubbles[k].active && gameState.bubbles[k].isCorrect) {
+                                anyActive = true;
+                                break;
+                            }
+                        }
+                        
+                        if (!anyActive) {
+                            endLevel(true);
+                        }
+                    }, 500);
+                } else {
+                    // Wrong answer
+                    playSound('wrong');
+                }
+                
+                break;
+            }
+        }
+    }
+    
+    // Check if all correct bubbles have been popped
+    if (allBubblesPopped && gameState.isPlaying) {
+        const anyCorrectBubbles = gameState.bubbles.some(b => b.isCorrect);
+        if (!anyCorrectBubbles) {
+            spawnBubbles();
+        }
+    }
+}
+
+function createPopEffect(x, y, color) {
+    // Create particles
+    for (let i = 0; i < 20; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 5 + 2;
+        const size = Math.random() * 8 + 2;
+        
+        const particle = {
+            x: x,
+            y: y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            size: size,
+            color: color,
+            alpha: 1,
+            active: true
+        };
+        
+        // Add particle
+        const particles = [];
+        particles.push(particle);
+        
+        // Update and draw particles
+        const updateParticles = function() {
+            let anyActive = false;
+            
+            for (let j = 0; j < particles.length; j++) {
+                const p = particles[j];
+                if (!p.active) continue;
+                
+                anyActive = true;
+                
+                // Move particle
+                p.x += p.vx;
+                p.y += p.vy;
+                p.alpha -= 0.02;
+                
+                if (p.alpha <= 0) {
+                    p.active = false;
+                    continue;
+                }
+                
+                // Draw particle
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `${p.color}${Math.floor(p.alpha * 255).toString(16).padStart(2, '0')}`;
+                ctx.fill();
+            }
+            
+            if (anyActive && gameState.isPlaying) {
+                requestAnimationFrame(updateParticles);
+            }
+        };
+        
+        updateParticles();
+    }
+}
+
+// Sound Effects
+function playSound(type) {
+    // This would be implemented with actual audio files
+    // For simplicity, we're using this placeholder function
+    console.log(`Playing sound: ${type}`);
+    
+    // Create a simple oscillator for sound effects
+    try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const audioCtx = new AudioContext();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        
+        if (type === 'shoot') {
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.2);
+            gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 0.2);
+        } else if (type === 'correct') {
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(440, audioCtx.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.1);
+            gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 0.3);
+        } else if (type === 'wrong') {
+            oscillator.type = 'sawtooth';
+            oscillator.frequency.setValueAtTime(220, audioCtx.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(110, audioCtx.currentTime + 0.2);
+            gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 0.2);
+        }
+    } catch (e) {
+        console.log('Web Audio API not supported');
+    }
+}
+</script>
+</body>
+</html>
